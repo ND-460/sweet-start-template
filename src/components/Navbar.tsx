@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useLocation } from "react-router-dom";
@@ -27,6 +27,10 @@ const Navbar = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const location = useLocation();
   const isHome = location.pathname === "/";
+  
+  // Timeout refs for dropdown hover delays
+  const openTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const onScroll = () => {
@@ -56,6 +60,9 @@ const Navbar = () => {
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
+      // Cleanup timeouts
+      if (openTimeoutRef.current) clearTimeout(openTimeoutRef.current);
+      if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
     };
   }, [isHome]);
 
@@ -72,6 +79,24 @@ const Navbar = () => {
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     }
     setMobileOpen(false);
+  };
+
+  const handleResourcesMouseEnter = () => {
+    // Clear close timeout if user hovers back
+    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    // Delay opening by 150ms
+    openTimeoutRef.current = setTimeout(() => {
+      setResourcesOpen(true);
+    }, 150);
+  };
+
+  const handleResourcesMouseLeave = () => {
+    // Clear open timeout if user leaves during delay
+    if (openTimeoutRef.current) clearTimeout(openTimeoutRef.current);
+    // Delay closing by 200ms
+    closeTimeoutRef.current = setTimeout(() => {
+      setResourcesOpen(false);
+    }, 200);
   };
 
   return (
@@ -123,8 +148,8 @@ const Navbar = () => {
             {/* Resources Dropdown */}
             <div 
               className="relative group"
-              onMouseEnter={() => setResourcesOpen(true)}
-              onMouseLeave={() => setResourcesOpen(false)}
+              onMouseEnter={handleResourcesMouseEnter}
+              onMouseLeave={handleResourcesMouseLeave}
             >
               <button
                 onClick={() => setResourcesOpen(!resourcesOpen)}
