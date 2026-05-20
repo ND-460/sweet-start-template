@@ -2,12 +2,12 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import DemoRequestForm from "./DemoRequestForm";
-import AppExchangeForm from "./AppExchangeForm";
 import heroImg from "@/assets/agentvista-ai-survey-hero-mascot.webp";
+
+const APPEXCHANGE_URL = "https://appexchange.salesforce.com/appxListingDetail?listingId=c088b22e-a28b-4d93-bdf7-b950546b6e80&channel=recommended";
 
 const HeroSection = () => {
   const [demoOpen, setDemoOpen] = useState(false);
-  const [appExOpen, setAppExOpen] = useState(false);
 
   return (
     <section className="relative min-h-screen flex items-center hero-gradient overflow-hidden pt-16">
@@ -81,7 +81,7 @@ const HeroSection = () => {
                 </span>
               </button>
               <button
-                onClick={() => setAppExOpen(true)}
+                onClick={() => window.open(APPEXCHANGE_URL, "_blank", "noopener,noreferrer")}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 rounded-lg border border-border text-foreground font-semibold text-base sm:text-lg hover:bg-gray-50 active:bg-muted transition-colors cursor-pointer select-none"
                 style={{ touchAction: 'manipulation' }}
               >
@@ -129,7 +129,6 @@ const HeroSection = () => {
       </div>
 
       <DemoRequestForm open={demoOpen} onClose={() => setDemoOpen(false)} />
-      <AppExchangeForm open={appExOpen} onClose={() => setAppExOpen(false)} />
 
       <style>{`
         @keyframes drawLine {
