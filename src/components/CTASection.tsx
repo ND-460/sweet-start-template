@@ -27,7 +27,7 @@ const CTASection = () => {
               <span>Ready to Close the Feedback Loop —<br />Automatically ?</span>
             </h2>
             <p className="text-white mb-8 text-lg">
-              See AgentVista in action. Automate your entire survey lifecycle with the power of AI,<br />natively within Salesforce</p>
+              See AgentVista in action. Automate your entire survey lifecycle with the power of AI,<br />natively inside Salesforce</p>
             <button
               onClick={() => setDemoOpen(true)}
               className="inline-flex items-center gap-2 px-8 py-4 rounded-lg bg-white text-[#005C90] font-semibold text-lg hover:opacity-85 transition-opacity"

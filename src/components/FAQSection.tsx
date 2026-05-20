@@ -10,7 +10,7 @@ import {
 const faqs = [
   {
     question:"Is AgentVista 100% native to Salesforce? ",
-    answer: "Yes, AgentVista is built entirely on the Salesforce platform using Agentforce. It requires no external integrations, APIs, or third-party tools — your data stays within Salesforce at all times, ensuring full compliance with your org's security and governance policies."  
+    answer: "Yes, AgentVista is built entirely on the Salesforce platform using Agentforce. It requires no external integrations, APIs, or third-party tools — your data stays inside Salesforce at all times, ensuring full compliance with your org's security and governance policies."  
     },
   {
     question: "Do I need coding skills to use AgentVista?",

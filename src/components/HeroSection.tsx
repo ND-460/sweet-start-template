@@ -66,7 +66,7 @@ const HeroSection = () => {
             </h2>
 
             <p className="text-sm md:text-base text-muted-foreground max-w-xl mb-10 leading-relaxed">
-              Use natural language and AI to create, distribute, understand, and act on feedback — all within Salesforce. No code required.
+              Use natural language and AI to create, distribute, understand, and act on feedback — all inside Salesforce. No code required.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
