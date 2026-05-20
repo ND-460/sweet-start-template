@@ -182,7 +182,7 @@ const PrivacyPolicy = () => {
             <p className="font-medium text-foreground">Legal, AgentVista</p>
             <p>2040 Martin Ave</p>
             <p>Santa Clara, CA 95050</p>
-            <p>1-669-777-6838</p>
+            <p><a href="tel:1.669.777.6838" className="text-[#39B44A] hover:underline font-medium">1.669.777.6838</a></p>
             <p><a href="mailto:legal@ardira.com" className="text-[#39B44A] hover:underline font-medium">legal@ardira.com</a></p>
           </div>
         </div>
