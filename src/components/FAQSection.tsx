@@ -14,7 +14,7 @@ const faqs = [
     },
   {
     question: "Do I need coding skills to use AgentVista?",
-    answer: "Not at all. AgentVista is designed for business users. You can create surveys, trigger feedback workflows, analyze sentiment, and generate insights using simple natural language prompts — no code, formulas, or technical expertise required.",
+    answer: "Not at all. AgentVista is designed for business users. You can create surveys, analyze sentiment, and generate insights using simple natural language prompts.  No code, formulas, or technical expertise required.",
   },
   {
     question: "Can AgentVista integrate with my existing Salesforce workflows?",
