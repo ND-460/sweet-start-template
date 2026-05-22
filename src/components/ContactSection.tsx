@@ -180,7 +180,7 @@ const ContactSection = () => {
                 <div className="flex-1 min-w-0">
                   <p className="text-sm text-muted-foreground">
                     <span className="hidden md:inline"><span className="font-semibold text-foreground">For customer support,</span> email us directly at<br /></span>
-                    <span className="md:hidden"><span className="font-semibold text-foreground">For customer support, email us</span> <br /> directly at</span>
+                    <span className="md:hidden"><span className="font-semibold text-foreground">For customer support, email us</span> <br /> directly at </span>
                     <a href="mailto:support@ardira.com" className="relative font-medium inline-block" style={{ color: '#39B44A' }}>
                       {" "}support@ardira.com
                       <span 
