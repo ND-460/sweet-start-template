@@ -71,7 +71,7 @@ const PrivacyPolicy = () => {
 
           <h4 className="text-base font-semibold text-foreground !mt-4">(a) Cookies</h4>
           <p>
-            A "cookie" is a small data file transmitted from a website to your computer's hard drive. Cookies are not used to run programs or deliver viruses to your computer. Instead, we use cookies to help you personalize your online experience. One of the primary purposes of cookies is to provide a convenience feature to save you time.
+            A "cookie" is a small data file transmitted from a website to your computer's hard drive. Cookies are not used to run programs or deliver viruses to your computer. Instead, we use cookies to help you personalize your online experience. One of the primary purposes of cookies is to provide a convenience feature to save you time. For example, if you personalize pages on our Website, or register for a subscription service, a cookie helps us to recall your specific information on subsequent visits. When you return to the Website, the information you previously provided can be retrieved, so you can easily use the customized features.
           </p>
           <p>Cookies are usually defined in one of two ways, and we may use both of them:</p>
           <ul className="list-disc pl-6 space-y-1">
