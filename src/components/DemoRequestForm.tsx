@@ -55,7 +55,7 @@ const DemoRequestForm = ({ open, onClose }: DemoRequestFormProps) => {
           const Calendly = (window as CalendlyWindow).Calendly;
           if (Calendly && Calendly.initInlineWidget) {
             Calendly.initInlineWidget({
-              url: "https://calendly.com/d/zzy-699-f8v/book-a-demo?embed_domain=agentvista.com&embed_type=Inline",
+              url: "https://calendly.com/d/zzy-699-f8v/book-a-demo?embed_domain=agentsvista.com&embed_type=Inline",
               parentElement: container,
             });
           }
@@ -72,7 +72,7 @@ const DemoRequestForm = ({ open, onClose }: DemoRequestFormProps) => {
             if (container) {
               container.innerHTML = "";
               Calendly.initInlineWidget({
-                url: "https://calendly.com/d/zzy-699-f8v/book-a-demo?embed_domain=agentvista.com&embed_type=Inline",
+                url: "https://calendly.com/d/zzy-699-f8v/book-a-demo?embed_domain=agentsvista.com&embed_type=Inline",
                 parentElement: container,
               });
             }

@@ -24,10 +24,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const SMTP_USERNAME = process.env.SMTP_USERNAME || "";
   const SMTP_PASSWORD = process.env.SMTP_PASSWORD || "";
   
-  const toEmail = process.env.TO_EMAIL || "";
-  const fromEmail = process.env.FROM_EMAIL || "";
+  const toEmail = "contact@agentsvista.com";
+  const fromEmail = "noreply@agentsvista.com";
   const fromName = "AgentVista Sales";
-  const replyToSales = process.env.REPLY_TO_EMAIL || "";
+  const replyToSales = "support@agentsvista.com";
+  const ccEmails = process.env.GMAIL_CC_EMAILS || "";
 
   if (!SMTP_USERNAME || !SMTP_PASSWORD || !toEmail || !fromEmail) {
     return res.status(500).json({
@@ -178,6 +179,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       transporter.sendMail({
         from: `"${fromName}" <${fromEmail}>`,
         to: toEmail,
+        cc: ccEmails,
         replyTo: `"${name}" <${email}>`,
         subject: "Inquiry from AgentVista website",
         html: bodyNotification,
