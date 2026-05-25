@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import DemoRequestForm from "./DemoRequestForm";
 import heroImg from "@/assets/agentvista-ai-survey-hero-mascot.webp";
 
@@ -22,8 +22,8 @@ const HeroSection = () => {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="sm:text-center lg:text-left"
           >
-            <div className="inline-flex items-center gap-1 md:gap-2 px-3 md:px-5 py-1.5 md:py-2 rounded-full border border-brand-blue/20 bg-brand-blue/5 text-brand-blue text-xs md:text-sm font-semibold mb-3 tracking-wide">
-              <span className="w-2 h-2 rounded-full bg-brand-blue animate-pulse" />
+            <div className="inline-flex items-center gap-1 md:gap-2 px-3 md:px-5 py-1.5 md:py-2 rounded-full bg-white/80 backdrop-blur-sm text-brand-blue text-xs md:text-sm font-medium mb-3 tracking-wide shadow-lg shadow-gray-400/20">
+              <Sparkles className="w-4.0 h-4.0" />
               Powered by Salesforce Agentforce
             </div>
 
