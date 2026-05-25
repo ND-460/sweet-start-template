@@ -163,7 +163,7 @@ const PrivacyPolicy = () => {
 
           <h2 className="text-xl font-semibold text-foreground !mt-8">International</h2>
           <p>
-            We do not currently market or sell our goods and services to customers outside the United States or Canada. Accordingly, we do not warrant or represent our use of your Personal Information as described in this Policy will necessarily comply with laws of countries other than the United States or Canada. However, we understand many visitors to our Website may be located outside the United States or Canada. Regardless of the country in which such information is stored or from which you access our Website, we will process your Personal Information in accordance with this Policy.
+            We do not currently market or sell our goods and services to customers outside the United States or Canada. Accordingly, we do not warrant or represent our use of your Personal Information as described in this Policy will necessarily comply with laws of countries other than the United States or Canada. However, we understand many visitors to our Website may be located outside the United States or Canada. To provide you with our Website services or to operate our Website, please be advised we may store, process, and transmit information in the United States, Canada, and other countries that may not have the same privacy and security laws as the country in which you live. Regardless of the country in which such information is stored or from which you access our Website, we will process your Personal Information in accordance with this Policy.
           </p>
 
           <h2 className="text-xl font-semibold text-foreground !mt-8">Safeguarding the Information We Collect</h2>
