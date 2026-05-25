@@ -24,11 +24,11 @@ const PrivacyPolicy = () => {
 
         <div className="prose prose-sm max-w-none text-foreground/80 space-y-6 text-left md:text-justify">
           <p>
-            The website located at <a href="https://www.agentsvista.com" target="_blank" rel="noopener noreferrer" className="text-[#39B44A] hover:underline font-medium">www.agentsvista.com</a>, (the "Website") is published, owned, and operated by Ardira Corporation, its affiliates and related entities ("AgentVista," "the Company," "we," "us," and "our"). AgentVista respects your privacy and is committed to protecting your privacy through our compliance with this website privacy policy (the "Policy"). This Policy should be read in conjunction with our website <Link to="/terms-of-use" className="text-[#39B44A] hover:underline font-medium">Terms of Use</Link>, into which this Policy is incorporated by reference.
+            The website located at <a href="https://www.agentsvista.com" target="_blank" rel="noopener noreferrer" className="text-[#39B44A] hover:underline font-medium break-words">www.agentsvista.com</a>, (the "Website") is published, owned, and operated by Ardira Corporation, its affiliates and related entities ("AgentVista," "the Company," "we," "us," and "our"). AgentVista respects your privacy and is committed to protecting your privacy through our compliance with this website privacy policy (the "Policy"). This Policy should be read in conjunction with our website <Link to="/terms-of-use" className="text-[#39B44A] hover:underline font-medium">Terms of Use</Link>, into which this Policy is incorporated by reference.
           </p>
           <p>This Policy describes:</p>
           <ul className="list-disc pl-6 space-y-2">
-            <li>The types of information we collect from you or that you may provide when you visit our website available at: <a href="https://www.agentsvista.com" target="_blank" rel="noopener noreferrer" className="text-[#39B44A] hover:underline font-medium">agentsvista.com</a> ("our Website").</li>
+            <li>The types of information we collect from you or that you may provide when you visit our website available at: <a href="https://www.agentsvista.com" target="_blank" rel="noopener noreferrer" className="text-[#39B44A] hover:underline font-medium break-words">agentsvista.com</a> ("our Website").</li>
             <li>Our practices for collecting, using, maintaining, protecting, and disclosing that information.</li>
           </ul>
           <p>
@@ -114,7 +114,7 @@ const PrivacyPolicy = () => {
           <p>
             We strive to maintain and process your information accurately. We have processes in place to maintain all of our information in accordance with relevant data governance frameworks and legal requirements. We employ technologies designed to help us maintain information accuracy on input and processing.
           </p>
-          <p>Should you have any questions about your Personal Information, please e-mail us at <a href="mailto:legal@ardira.com" className="text-[#39B44A] hover:underline font-medium">legal@ardira.com</a>.</p>
+          <p>Should you have any questions about your Personal Information, please e-mail us at <a href="mailto:legal@ardira.com" className="text-[#39B44A] hover:underline font-medium break-words">legal@ardira.com</a>.</p>
 
           <h2 className="text-xl font-semibold text-foreground !mt-8">Information of Minors</h2>
           <p>
@@ -139,7 +139,7 @@ const PrivacyPolicy = () => {
             We do not sell or lease your information to any third party. We may disclose your Personal Information to our trusted third-party business partners in accordance with this Policy. We work with a number of partners that help us process your requests, deliver customer service and support, send email marketing communications, and provide experiences that you have come to expect from us.
           </p>
           <p>
-            One such trusted third-party partner is Google Analytics. The Website sends aggregated, non-Personal Information to Google Analytics for the purpose of providing us with the ability to conduct technical and statistical analysis on the Website's performance. For more information on how Google Analytics supports the Website and uses information sent from the Website, please review Google's privacy policy available at <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer" className="text-[#39B44A] hover:underline">https://policies.google.com/technologies/partner-sites</a>.
+            One such trusted third-party partner is Google Analytics. The Website sends aggregated, non-Personal Information to Google Analytics for the purpose of providing us with the ability to conduct technical and statistical analysis on the Website's performance. For more information on how Google Analytics supports the Website and uses information sent from the Website, please review Google's privacy policy available at <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer" className="text-[#39B44A] hover:underline break-words">https://policies.google.com/technologies/partner-sites</a>.
           </p>
           <p>
             <strong>California Residents.</strong> As already disclosed, we may market our services to you on third party websites by showing you advertisements for AgentVista products or services. We will not share your Personal Information with such third parties for the purposes of any third party marketing of its products to you without your prior consent.
@@ -182,8 +182,8 @@ const PrivacyPolicy = () => {
             <p className="font-medium text-foreground">Legal, AgentVista</p>
             <p>2040 Martin Ave</p>
             <p>Santa Clara, CA 95050</p>
-            <p><a href="tel:16697776838" className="text-[#39B44A] hover:underline font-medium">1.669.777.6838</a></p>
-            <p><a href="mailto:legal@ardira.com" className="text-[#39B44A] hover:underline font-medium">legal@ardira.com</a></p>
+            <p><a href="tel:16697776838" className="text-[#39B44A] hover:underline font-medium break-words">1.669.777.6838</a></p>
+            <p><a href="mailto:legal@ardira.com" className="text-[#39B44A] hover:underline font-medium break-words">legal@ardira.com</a></p>
           </div>
         </div>
       </div>
