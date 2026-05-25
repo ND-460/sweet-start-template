@@ -88,7 +88,7 @@ const TermsOfUse = () => {
 
           <h2 className="text-xl font-semibold text-foreground !mt-8">Indemnity</h2>
           <p>
-            You agree to defend, indemnify and hold harmless the Company and its affiliates, licensors and service providers from and against any claims, liabilities, damages, judgments, awards, losses, costs, expenses or fees (including reasonable attorneys' fees) arising out of or relating to your violation of these Terms or your use of the Website.
+            You agree to defend, indemnify and hold harmless the Company and its affiliates, licensors and service providers from and against any claims, liabilities, damages, judgments, awards, losses, costs, expenses or fees (including reasonable attorneys’ fees) arising out of or relating to your violation of these Terms or your use of the Website, including, but not limited to, any use of the Website Content, services, or products other than as expressly authorized in these Terms or your use of any information obtained from the Website.
           </p>
 
           <h2 className="text-xl font-semibold text-foreground !mt-8">Termination and Restriction of Access</h2>
