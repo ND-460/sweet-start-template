@@ -1,0 +1,56 @@
+# AgentVista .htaccess Configuration for Bluehost SPA Routing
+# Handles HTTPS redirect, www-to-non-www redirect, and React SPA route fallback
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # 1. Force HTTPS - redirect all http requests to https
+  # Only execute if HTTPS is not already enabled
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # 2. Redirect www to non-www (canonical domain: agentsvista.com)
+  # Force https://agentsvista.com (remove www)
+  RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+  # 3. Rewrite API requests to the PHP backend
+  RewriteRule ^api/contact$ /php/contact.php [L,QSA]
+
+  # 4. React SPA Fallback: Route all requests to index.html unless a file or directory exists
+  # This allows React Router to handle all routes on the client side
+  
+  # Don't rewrite if the request is for a real file
+  RewriteCond %{REQUEST_FILENAME} !-f
+  # Don't rewrite if the request is for a real directory
+  RewriteCond %{REQUEST_FILENAME} !-d
+  # Don't rewrite the index.html file itself
+  RewriteRule ^ /index.html [L]
+
+</IfModule>
+
+# 4. Compression and Caching Headers
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/x-javascript
+</IfModule>
+
+# 5. Cache Control Headers for Static Assets
+<FilesMatch "\.(jpg|jpeg|png|gif|css|js|svg|webp|ttf|woff|woff2)$">
+  Header set Cache-Control "public, max-age=31536000, immutable"
+</FilesMatch>
+
+# 6. Cache Control for HTML files (shorter cache, check for updates)
+<FilesMatch "\.(html|htm)$">
+  Header set Cache-Control "public, max-age=3600, must-revalidate"
+</FilesMatch>
+
+# 7. Security Headers
+<IfModule mod_headers.c>
+  # Prevent MIME type sniffing
+  Header set X-Content-Type-Options "nosniff"
+  # Enable XSS protection in older browsers
+  Header set X-XSS-Protection "1; mode=block"
+  # Clickjacking protection
+  Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
