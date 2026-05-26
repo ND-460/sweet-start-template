@@ -10,15 +10,10 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-.output
-.vinxi
-.tanstack/**
-.nitro
 *.local
-
-# Wrangler / Cloudflare
-.wrangler/
-.dev.vars
+.env
+.env.local
+.env.*.local
 
 # Editor directories and files
 .vscode/*
@@ -31,5 +26,6 @@ dist-ssr
 *.sln
 *.sw?
 
-
-agentvista-design/
+dependency.txt
+seo-desktop.pdf
+Dev_Team_Website_Build_Test_Handoff_Playbook.pdf
