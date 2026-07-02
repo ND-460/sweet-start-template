@@ -21,7 +21,7 @@ declare global {
 }
 
 export const RecaptchaProvider = ({ children }: RecaptchaProviderProps) => {
-  const siteKey = import.meta.env.RECAPTCHA_SITE_KEY;
+  const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
 
   useEffect(() => {
     if (!siteKey) {
