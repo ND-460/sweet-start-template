@@ -7,6 +7,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRecaptcha } from "@/hooks/use-recaptcha";
 
+// =====================================================
+// EDGE FUNCTION CONFIG
+// Use the production Supabase edge function for all submissions.
+// =====================================================
+const LEAD_SUBMIT_URL =
+  import.meta.env.VITE_LEAD_SUBMIT_URL ||
+  "https://wcwdswvijpaovpxmviyh.supabase.co/functions/v1/submit-lead";
+
+// Identifies which brand's form this is, so the edge function knows
+// which sites/email_templates rows to use.
+const SITE_ID = import.meta.env.VITE_SITE_ID || "AgentVista";
+
 // Zod validation schema
 const contactFormSchema = z.object({
   name: z
@@ -47,39 +59,55 @@ const ContactSection = () => {
 
   const onSubmit = async (data: ContactFormData) => {
     setSubmitError("");
+
+    if (!LEAD_SUBMIT_URL) {
+      console.error("Contact submit URL is not configured");
+      setSubmitError("Something went wrong. Please try again later.");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      // Get reCAPTCHA token
-      let token = await getToken("contact_form");
-      
+      // reCAPTCHA v3 token — validated server-side in the edge function.
+      // No submission proceeds without a real token.
+      const token = await getToken("contact_form");
+
       if (!token) {
-        console.warn("reCAPTCHA token not available (likely missing .env key). Proceeding with placeholder token for testing purposes.");
-        token = "dev_placeholder_token"; // Allowing local testing to proceed without a real ReCAPTCHA key
+        throw new Error("reCAPTCHA verification failed. Please refresh the page and try again.");
       }
 
-      // Log contact form data to the browser console
-      console.log("--- Contact Form Submission (Logged in Frontend) ---");
-      console.log({
+      const payload = {
+        site_id: SITE_ID,
         name: data.name,
         email: data.email,
         phone: data.phone,
         message: data.message || "",
-        pageUrl: window.location.href,
-        recaptchaToken: token,
-        timestamp: new Date().toISOString()
-      });
-      console.log("----------------------------------------------------");
+        source_url: window.location.href,
+        recaptchaToken: token, // camelCase — matches edge function's destructured field
+      };
 
-      // Simulate a brief network request delay (800ms)
-      await new Promise((resolve) => setTimeout(resolve, 800));
+      const response = await fetch(LEAD_SUBMIT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || result.success === false) {
+        throw new Error(result.message || "Failed to send message");
+      }
 
       setSubmitted(true);
       reset();
-      setIsLoading(false);
     } catch (error) {
       console.error("Form submission error:", error);
-      setSubmitError("Unable to process your message. Please try again later. Check browser console for details.");
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "Unable to process your message. Please try again later."
+      );
+    } finally {
       setIsLoading(false);
     }
   };

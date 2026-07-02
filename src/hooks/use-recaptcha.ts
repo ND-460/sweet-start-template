@@ -1,74 +1,53 @@
-import { useCallback } from "react";
+import { useState, useCallback } from 'react';
 
+// Declare grecaptcha on window type to avoid TypeScript errors
 declare global {
   interface Window {
     grecaptcha: {
-      ready: (callback: () => void) => void;
       execute: (siteKey: string, options: { action: string }) => Promise<string>;
+      render: (elementId: string, options: unknown) => void;
+      reset: () => void;
+      getResponse: () => string;
     };
   }
 }
 
-const SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || import.meta.env.RECAPTCHA_SITE_KEY || "";
-
-const loadScript = (): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    if (!SITE_KEY) {
-      console.warn("reCAPTCHA site key not found in environment variables");
-      resolve();
-      return;
-    }
-
-    if (window.grecaptcha) {
-      window.grecaptcha.ready(() => resolve());
-      return;
-    }
-
-    const existingScript = document.querySelector('script[src^="https://www.google.com/recaptcha/api.js"]');
-    if (existingScript) {
-      const interval = setInterval(() => {
-        if (window.grecaptcha) {
-          clearInterval(interval);
-          window.grecaptcha.ready(() => resolve());
-        }
-      }, 50);
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = `https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`;
-    script.async = true;
-    script.defer = true;
-    script.onload = () => {
-      window.grecaptcha.ready(() => resolve());
-    };
-    script.onerror = () => reject(new Error("Failed to load reCAPTCHA script"));
-    document.head.appendChild(script);
-  });
-};
+// Get reCAPTCHA Site Key from environment variable (public key, safe to expose)
+const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "6LdpZq4sAAAAACc87ym0oRUjKpiJ5nIsi_LWPxTh";
 
 export const useRecaptcha = () => {
-  const executeRecaptcha = useCallback(async (action: string): Promise<string | null> => {
-    try {
-      await loadScript();
-      if (!window.grecaptcha || !SITE_KEY) {
-        return null;
-      }
-      return await window.grecaptcha.execute(SITE_KEY, { action });
-    } catch (err) {
-      console.error("reCAPTCHA execution error:", err);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const loadRecaptcha = useCallback(() => {
+    if (isLoaded || document.querySelector(`script[src*="recaptcha/api.js"]`)) {
+      if (window.grecaptcha) setIsLoaded(true);
+      return;
+    }
+
+    // Guard against concurrent injection calls
+    if ((window as unknown as { ___recaptcha_injected?: boolean }).___recaptcha_injected) return;
+    (window as unknown as { ___recaptcha_injected?: boolean }).___recaptcha_injected = true;
+
+    const script = document.createElement("script");
+    script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
+    script.async = true;
+    script.defer = true;
+    script.onload = () => setIsLoaded(true);
+    document.body.appendChild(script);
+  }, [isLoaded]);
+
+  const executeRecaptcha = async (action: string): Promise<string | null> => {
+    if (!window.grecaptcha) {
+      console.warn("reCAPTCHA has not loaded yet");
       return null;
     }
-  }, []);
-
-  // For backwards compatibility with the existing code expecting 'getToken'
-  const getToken = useCallback(async (action: string): Promise<string | null> => {
-    return executeRecaptcha(action);
-  }, [executeRecaptcha]);
-
-  return {
-    executeRecaptcha,
-    getToken,
-    initRecaptcha: loadScript
+    try {
+      return await window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action });
+    } catch (e) {
+      console.error("reCAPTCHA execution failed", e);
+      return null;
+    }
   };
+
+  return { loadRecaptcha, executeRecaptcha, isLoaded };
 };
