@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PageSeo from "@/components/seo/PageSeo";
 
 const TermsOfUse = () => {
   useEffect(() => {
@@ -11,6 +12,14 @@ const TermsOfUse = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <PageSeo
+        title="Terms of Use"
+        description="Read the Terms of Use governing your access to and use of the AgentVista website, services, and applications."
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "Terms of Use", path: "/terms-of-use" },
+        ]}
+      />
       <Navbar />
       <div className="mx-auto px-4 lg:px-8 py-12 max-w-6xl pt-28">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">

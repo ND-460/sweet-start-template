@@ -11,6 +11,7 @@ import FAQSection from "@/components/FAQSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
+import PageSeo from "@/components/seo/PageSeo";
 
 interface IndexProps {
   section?: string;
@@ -38,6 +39,11 @@ const Index = ({ section }: IndexProps) => {
 
   return (
     <div id="home" className="min-h-screen bg-background">
+      <PageSeo
+        title="AI-Powered Surveys, Forms & Assessments"
+        description="AgentVista is the intelligent AI-powered assistant for creating, distributing, and analyzing surveys, forms, and assessments inside Salesforce."
+        breadcrumbs={[{ name: "Home", path: "/" }]}
+      />
       <Navbar />
       <HeroSection />
       <WhatIsSection />

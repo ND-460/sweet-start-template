@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PageSeo from "@/components/seo/PageSeo";
 
 const PrivacyPolicy = () => {
   useEffect(() => {
@@ -11,6 +12,14 @@ const PrivacyPolicy = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <PageSeo
+        title="Privacy Policy"
+        description="Learn how AgentVista collects, uses, protects, and discloses your personal information when using our surveys and assessments platform."
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "Privacy Policy", path: "/privacy-policy" },
+        ]}
+      />
       <Navbar />
       <div className="mx-auto px-4 lg:px-8 py-12 max-w-6xl pt-28">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
