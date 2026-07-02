@@ -20,7 +20,7 @@ const CTASection = () => {
           }}
         >
           <div className="text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/10 text-white text-xs font-semibold mb-4 tracking-widest uppercase">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 text-white text-xs font-semibold mb-4 tracking-widest uppercase">
               Get Started
             </div>
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
