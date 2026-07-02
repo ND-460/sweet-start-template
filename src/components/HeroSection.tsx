@@ -35,10 +35,7 @@ const HeroSection = () => {
               <span className="relative inline-block pb-4 md:pb-5">
                 SurveyVista Copilot
                 <svg 
-                  className="absolute bottom--3 left-0 w-full"
-                  style={{
-                    height: '20px',
-                  }}
+                  className="absolute bottom-0 md:bottom--3 left-0 w-full h-[12px] md:h-[20px]"
                   viewBox="0 0 100 20" 
                   preserveAspectRatio="none"
                 >
