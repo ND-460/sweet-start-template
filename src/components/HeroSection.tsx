@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import DemoRequestForm from "./DemoRequestForm";
-import heroImg from "@/assets/agentvista-ai-survey-hero-mascot.webp";
 
 const APPEXCHANGE_URL = "https://appexchange.salesforce.com/appxListingDetail?listingId=c088b22e-a28b-4d93-bdf7-b950546b6e80&channel=recommended";
 
@@ -99,7 +98,7 @@ const HeroSection = () => {
             className="relative flex justify-center items-center mt-12 lg:mt-0"
           >
             <img
-              src={heroImg}
+              src="/images/agentvista-ai-survey-hero-mascot.webp"
               alt="AI-powered survey assistant mascot - AgentVista SurveyVista Copilot for intelligent feedback automation"
               className="w-full max-w-md lg:max-w-lg"
               fetchPriority="high"
