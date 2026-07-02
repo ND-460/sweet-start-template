@@ -45,14 +45,6 @@ const ContactSection = () => {
     mode: "onBlur", // Validate on blur event
   });
 
-  // ---------- DEPLOYMENT CONFIGURATIONS ----------
-  // Uncomment the line below for Original Domain (PHP deployment)
-  // const CONTACT_API_URL = "http://localhost:8000/contact.php"; 
-
-  // Uncomment the line below for Vercel deployment (Nodemailer)
-  const CONTACT_API_URL = "/api/contact";
-  // ------------------------------------------------
-
   const onSubmit = async (data: ContactFormData) => {
     setSubmitError("");
     setIsLoading(true);
@@ -66,37 +58,28 @@ const ContactSection = () => {
         token = "dev_placeholder_token"; // Allowing local testing to proceed without a real ReCAPTCHA key
       }
 
-      // Send form data to backend
-      const response = await fetch(CONTACT_API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          phone: data.phone,
-          message: data.message || "",
-          pageUrl: window.location.href,
-          recaptchaToken: token,
-        }),
+      // Log contact form data to the browser console
+      console.log("--- Contact Form Submission (Logged in Frontend) ---");
+      console.log({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        message: data.message || "",
+        pageUrl: window.location.href,
+        recaptchaToken: token,
+        timestamp: new Date().toISOString()
       });
+      console.log("----------------------------------------------------");
 
-      const responseData = await response.json();
+      // Simulate a brief network request delay (800ms)
+      await new Promise((resolve) => setTimeout(resolve, 800));
 
-      if (response.ok && responseData.success) {
-        setSubmitted(true);
-        reset();
-        setIsLoading(false);
-      } else {
-        const errorMessage = responseData.message || "Something went wrong. Please try again.";
-        console.error("Form submission failed:", errorMessage);
-        setSubmitError(errorMessage);
-        setIsLoading(false);
-      }
+      setSubmitted(true);
+      reset();
+      setIsLoading(false);
     } catch (error) {
       console.error("Form submission error:", error);
-      setSubmitError("Unable to send your message. Please try again later. Check browser console for details.");
+      setSubmitError("Unable to process your message. Please try again later. Check browser console for details.");
       setIsLoading(false);
     }
   };
