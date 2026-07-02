@@ -23,31 +23,28 @@ const App = () => {
 
   // Mobile toggle click/touch handler
   useEffect(() => {
-    // Disable listener on hover-capable desktop devices (use CSS hover instead)
-    const isHoverCapable = window.matchMedia("(hover: hover)").matches;
+    const isHoverCapable = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     if (isHoverCapable) return;
 
-    const handleDocumentClick = (e: MouseEvent | TouchEvent) => {
+    const handleToggle = (e: TouchEvent) => {
       const badge = document.querySelector(".grecaptcha-badge");
       if (!badge) return;
 
       const target = e.target as HTMLElement;
 
       if (badge.contains(target)) {
-        // Toggle the is-open class on badge click/tap
+        // Toggle the is-open class on badge tap
         badge.classList.toggle("is-open");
       } else {
-        // Collapse the badge when clicking outside
+        // Collapse the badge when tapping outside
         badge.classList.remove("is-open");
       }
     };
 
-    document.addEventListener("click", handleDocumentClick);
-    document.addEventListener("touchstart", handleDocumentClick);
+    document.addEventListener("touchstart", handleToggle, { passive: true });
 
     return () => {
-      document.removeEventListener("click", handleDocumentClick);
-      document.removeEventListener("touchstart", handleDocumentClick);
+      document.removeEventListener("touchstart", handleToggle);
     };
   }, []);
 
