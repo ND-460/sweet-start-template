@@ -1,6 +1,28 @@
-import { defineConfig } from "vite";
+import { defineConfig, Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+
+const cacheControlPlugin = (): Plugin => ({
+  name: "cache-control-plugin",
+  configureServer(server) {
+    server.middlewares.use((req, res, next) => {
+      const url = req.url?.split("?")[0] || "";
+      if (url.match(/\.(woff2?|ttf|webp|png|jpg|jpeg|svg|gif|ico)$/)) {
+        res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+      }
+      next();
+    });
+  },
+  configurePreviewServer(server) {
+    server.middlewares.use((req, res, next) => {
+      const url = req.url?.split("?")[0] || "";
+      if (url.match(/\.(woff2?|ttf|webp|png|jpg|jpeg|svg|gif|ico)$/)) {
+        res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+      }
+      next();
+    });
+  },
+});
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -11,7 +33,7 @@ export default defineConfig({
       overlay: false,
     },
   },
-  plugins: [react()],
+  plugins: [react(), cacheControlPlugin()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import confusedOwl from "@/assets/confused-owl.webp";
+import PageSeo from "@/components/seo/PageSeo";
 
 const NotFound = () => {
   const location = useLocation();
@@ -12,6 +13,15 @@ const NotFound = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden hero-gradient pt-0">
+      <PageSeo
+        title="Page Not Found"
+        description="We couldn't find the page you were looking for."
+        noIndex={true}
+        breadcrumbs={[
+          { name: "Home", path: "/" },
+          { name: "Not Found", path: "/404" },
+        ]}
+      />
       {/* Background blobs */}
       <div className="absolute top-10 -left-40 w-80 h-80 bg-brand-blue/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-40 right-10 w-96 h-96 bg-secondary/5 rounded-full blur-3xl pointer-events-none" />
