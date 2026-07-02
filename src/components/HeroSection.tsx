@@ -10,7 +10,7 @@ const HeroSection = () => {
   const [demoOpen, setDemoOpen] = useState(false);
 
   return (
-    <section className="relative min-h-screen flex items-center hero-gradient overflow-hidden pt-16">
+    <section className="relative min-h-screen flex items-center hero-gradient overflow-hidden pt-10 md:pt-16 ">
       <div className="absolute top-20 left-10 w-72 h-72 bg-brand-blue/8 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/8 rounded-full blur-3xl pointer-events-none" />
 
@@ -29,10 +29,10 @@ const HeroSection = () => {
               </span>
             </div>
 
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-snug mt-4 mb-4 text-foreground">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-snug mb-4 mt-4 md:mb-6 md:mt-6 text-foreground">
               AgentVista -
               <br />
-              <span className="relative inline-block pb-4 md:pb-5">
+              <span className="relative inline-block pb-2 md:pb-5">
                 SurveyVista Copilot
                 <svg 
                   className="absolute bottom-0 md:bottom--3 left-0 w-full h-[12px] md:h-[20px]"
@@ -60,7 +60,7 @@ const HeroSection = () => {
               <span className="text-gradient">Forms & Assessments</span>
             </h1>
 
-            <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-6 mt-6">
+            <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-4 mt-4 md:mb-6 md:mt-6">
               <span className="md:hidden">AI-Powered Automation for <br /> Feedback Management & <br /> Data Collection.</span>
               <span className="hidden md:inline">AI-Powered Automation for Feedback <br /> Management & Data Collection.</span>
             </h2>
