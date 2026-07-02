@@ -24,7 +24,9 @@ const HeroSection = () => {
           >
             <div className="inline-flex items-center gap-1 md:gap-2 px-3 md:px-5 py-1.5 md:py-2 rounded-full bg-white/80 backdrop-blur-sm text-brand-blue text-xs md:text-sm font-medium mb-3 tracking-wide shadow-lg shadow-gray-400/20">
               <Sparkles className="w-4 h-4" />
-              Powered by Salesforce Agentforce
+               <span className="text-xs sm:text-sm font-medium text-gray-600">
+                Powered by Salesforce Agentforce
+              </span>
             </div>
 
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-snug mt-4 mb-4 text-foreground">
