@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRecaptcha } from "@/hooks/use-recaptcha";
-
+//modified contact form to use supabase edge function for submission instead of direct email submission
 // =====================================================
 // EDGE FUNCTION CONFIG
 // Use the production Supabase edge function for all submissions.
