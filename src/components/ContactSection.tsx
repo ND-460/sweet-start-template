@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Send, Mail, Phone, MapPin, CheckCircle, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -45,7 +45,14 @@ const ContactSection = () => {
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { getToken } = useRecaptcha();
+  const { loadRecaptcha, executeRecaptcha } = useRecaptcha();
+
+  // Preload the reCAPTCHA script early so it's ready by the time the
+  // user submits (executeRecaptcha does not wait for the script to load).
+  useEffect(() => {
+    loadRecaptcha();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const {
     register,
@@ -71,7 +78,7 @@ const ContactSection = () => {
     try {
       // reCAPTCHA v3 token — validated server-side in the edge function.
       // No submission proceeds without a real token.
-      const token = await getToken("contact_form");
+      const token = await executeRecaptcha("contact_form");
 
       if (!token) {
         throw new Error("reCAPTCHA verification failed. Please refresh the page and try again.");
@@ -296,6 +303,7 @@ const ContactSection = () => {
                     type="text"
                     disabled={isLoading}
                     placeholder="Enter your name"
+                    onFocus={loadRecaptcha}
                     {...register("name")}
                     className={`w-full px-4 py-2.5 rounded-md border transition-colors text-sm focus:outline-none focus:ring-2 disabled:opacity-50 ${
                       errors.name
@@ -312,6 +320,7 @@ const ContactSection = () => {
                     type="email"
                     disabled={isLoading}
                     placeholder="Enter your email"
+                    onFocus={loadRecaptcha}
                     {...register("email")}
                     className={`w-full px-4 py-2.5 rounded-md border transition-colors text-sm focus:outline-none focus:ring-2 disabled:opacity-50 ${
                       errors.email
@@ -328,6 +337,7 @@ const ContactSection = () => {
                     type="tel"
                     disabled={isLoading}
                     placeholder="Enter your phone number"
+                    onFocus={loadRecaptcha}
                     {...register("phone")}
                     className={`w-full px-4 py-2.5 rounded-md border transition-colors text-sm focus:outline-none focus:ring-2 disabled:opacity-50 ${
                       errors.phone
@@ -344,6 +354,7 @@ const ContactSection = () => {
                     rows={5}
                     disabled={isLoading}
                     placeholder="Lets talk! Tell us about yourself."
+                    onFocus={loadRecaptcha}
                     {...register("message")}
                     className="w-full px-4 py-2.5 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30 focus:border-brand-blue transition-colors resize-none disabled:opacity-50" 
                   />
