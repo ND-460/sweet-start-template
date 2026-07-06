@@ -21,7 +21,7 @@ export const PageSeo = ({
   path,
   breadcrumbs,
   noIndex = false,
-  image = "https://agentsvista.com/og-logo.png",
+  image = "/og-logo.png",
 }: PageSeoProps) => {
   const location = useLocation();
   const baseDomain = "https://agentsvista.com";
