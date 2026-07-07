@@ -18,14 +18,34 @@ interface DemoRequestFormProps {
 
 const DemoRequestForm = ({ open, onClose }: DemoRequestFormProps) => {
   const scriptLoadedRef = useRef(false);
-  const calendlyReadyRef = useRef(false);
   const scriptRef = useRef<HTMLScriptElement | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load script on component mount (preload)
+  // Load script and initialize Calendly only when the modal is opened
   useEffect(() => {
+    if (!open) return;
+
+    const initialize = () => {
+      const container = document.getElementById("calendly-container");
+      if (!container) return;
+      container.innerHTML = "";
+      
+      const Calendly = (window as CalendlyWindow).Calendly;
+      if (Calendly && Calendly.initInlineWidget) {
+        Calendly.initInlineWidget({
+          url: "https://calendly.com/d/zzy-699-f8v/book-a-demo?embed_domain=agentsvista.com&embed_type=Inline",
+          parentElement: container,
+        });
+        setIsLoading(false);
+      } else {
+        // Fallback in case Calendly wasn't fully initialized
+        setTimeout(initialize, 100);
+      }
+    };
+
     if (!scriptLoadedRef.current) {
       scriptLoadedRef.current = true;
+      setIsLoading(true);
 
       const script = document.createElement("script");
       script.src = "https://assets.calendly.com/assets/external/widget.js";
@@ -33,58 +53,13 @@ const DemoRequestForm = ({ open, onClose }: DemoRequestFormProps) => {
       scriptRef.current = script;
 
       script.onload = () => {
-        // Mark Calendly as ready when script loads
-        calendlyReadyRef.current = true;
+        initialize();
       };
 
       document.body.appendChild(script);
-    }
-  }, []);
-
-  // Initialize Calendly when modal opens
-  useEffect(() => {
-    if (open) {
-      // Check if Calendly is already loaded
-      if (calendlyReadyRef.current) {
-        // Already loaded, show immediately without loading spinner
-        setIsLoading(false);
-        
-        const container = document.getElementById("calendly-container");
-        if (container) {
-          container.innerHTML = "";
-          const Calendly = (window as CalendlyWindow).Calendly;
-          if (Calendly && Calendly.initInlineWidget) {
-            Calendly.initInlineWidget({
-              url: "https://calendly.com/d/zzy-699-f8v/book-a-demo?embed_domain=agentsvista.com&embed_type=Inline",
-              parentElement: container,
-            });
-          }
-        }
-      } else {
-        // Not loaded yet, show loading spinner and wait
-        setIsLoading(true);
-        
-        const initializeCalendly = () => {
-          const Calendly = (window as CalendlyWindow).Calendly;
-          if (Calendly && Calendly.initInlineWidget) {
-            calendlyReadyRef.current = true;
-            const container = document.getElementById("calendly-container");
-            if (container) {
-              container.innerHTML = "";
-              Calendly.initInlineWidget({
-                url: "https://calendly.com/d/zzy-699-f8v/book-a-demo?embed_domain=agentsvista.com&embed_type=Inline",
-                parentElement: container,
-              });
-            }
-            setIsLoading(false);
-          } else {
-            // Calendly not yet available, retry after short delay
-            setTimeout(initializeCalendly, 100);
-          }
-        };
-
-        initializeCalendly();
-      }
+    } else {
+      setIsLoading(false);
+      initialize();
     }
   }, [open]);
 

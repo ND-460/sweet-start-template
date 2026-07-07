@@ -13,16 +13,20 @@ import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const App = () => {
-  const { initRecaptcha } = useRecaptcha();
+  const { loadRecaptcha } = useRecaptcha();
 
   // Lazy-load reCAPTCHA script after 5 seconds in the background
   useEffect(() => {
     const timer = setTimeout(() => {
-      initRecaptcha().catch((err) => console.error("Error background loading reCAPTCHA:", err));
+      try {
+        loadRecaptcha();
+      } catch (err) {
+        console.error("Error background loading reCAPTCHA:", err);
+      }
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, [initRecaptcha]);
+  }, [loadRecaptcha]);
 
   // Mobile toggle click/touch handler
   useEffect(() => {

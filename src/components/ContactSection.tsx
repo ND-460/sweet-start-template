@@ -47,12 +47,7 @@ const ContactSection = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { loadRecaptcha, executeRecaptcha } = useRecaptcha();
 
-  // Preload the reCAPTCHA script early so it's ready by the time the
-  // user submits (executeRecaptcha does not wait for the script to load).
-  useEffect(() => {
-    loadRecaptcha();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
 
   const {
     register,
