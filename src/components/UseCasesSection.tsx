@@ -183,6 +183,7 @@ const UseCasesSection = () => {
           <button 
             className="lg:hidden absolute left-0 top-[45px] -translate-y-1/2 z-20 p-2 text-muted-foreground hover:text-foreground active:scale-90 transition-all"
             onClick={() => emblaApi?.scrollPrev()}
+            aria-label="Previous slide"
           >
             <ChevronLeft size={36} strokeWidth={1.5} />
           </button>
@@ -190,6 +191,7 @@ const UseCasesSection = () => {
           <button 
             className="lg:hidden absolute right-0 top-[45px] -translate-y-1/2 z-20 p-2 text-muted-foreground hover:text-foreground active:scale-90 transition-all"
             onClick={() => emblaApi?.scrollNext()}
+            aria-label="Next slide"
           >
             <ChevronRight size={36} strokeWidth={1.5} />
           </button>

@@ -208,6 +208,7 @@ const Navbar = () => {
           <button
             className="lg:hidden text-foreground/80"
             onClick={() => setMobileOpen(true)}
+            aria-label="Open mobile menu"
           >
             <Menu size={22} />
           </button>
@@ -236,7 +237,11 @@ const Navbar = () => {
                 <a href="#home" onClick={(e) => handleNavClick(e, "#home")}>
                   <img src={logo} alt="AgentVista" className="h-8" />
                 </a>
-                <button onClick={() => setMobileOpen(false)} className="text-foreground">
+                <button 
+                  onClick={() => setMobileOpen(false)} 
+                  className="text-foreground"
+                  aria-label="Close mobile menu"
+                >
                   <X size={22} />
                 </button>
               </div>
