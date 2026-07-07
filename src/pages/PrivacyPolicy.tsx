@@ -33,11 +33,11 @@ const PrivacyPolicy = () => {
 
         <div className="prose prose-sm max-w-none text-foreground/80 space-y-6 text-left md:text-justify">
           <p>
-            The website located at <a href="https://www.agentsvista.com" target="_blank" rel="noopener noreferrer" className="text-[#39B44A] hover:underline font-medium break-words">www.agentsvista.com</a>, (the "Website") is published, owned, and operated by Ardira Corporation, its affiliates and related entities ("AgentVista," "the Company," "we," "us," and "our"). AgentVista respects your privacy and is committed to protecting your privacy through our compliance with this website privacy policy (the "Policy"). This Policy should be read in conjunction with our website <Link to="/terms-of-use" className="text-[#39B44A] hover:underline font-medium">Terms of Use</Link>, into which this Policy is incorporated by reference.
+            The website located at <a href="https://agentsvista.com" target="_blank" rel="noopener noreferrer" className="text-[#39B44A] hover:underline font-medium break-words">agentsvista.com</a>, (the "Website") is published, owned, and operated by Ardira Corporation, its affiliates and related entities ("AgentVista," "the Company," "we," "us," and "our"). AgentVista respects your privacy and is committed to protecting your privacy through our compliance with this website privacy policy (the "Policy"). This Policy should be read in conjunction with our website <Link to="/terms-of-use" className="text-[#39B44A] hover:underline font-medium">Terms of Use</Link>, into which this Policy is incorporated by reference.
           </p>
           <p>This Policy describes:</p>
           <ul className="list-disc pl-6 space-y-2">
-            <li>The types of information we collect from you or that you may provide when you visit our website available at: <a href="https://www.agentsvista.com" target="_blank" rel="noopener noreferrer" className="text-[#39B44A] hover:underline font-medium break-words">agentsvista.com</a> ("our Website").</li>
+            <li>The types of information we collect from you or that you may provide when you visit our website available at: <a href="https://agentsvista.com" target="_blank" rel="noopener noreferrer" className="text-[#39B44A] hover:underline font-medium break-words">agentsvista.com</a> ("our Website").</li>
             <li>Our practices for collecting, using, maintaining, protecting, and disclosing that information.</li>
           </ul>
           <p>

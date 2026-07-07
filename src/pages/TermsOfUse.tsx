@@ -38,7 +38,7 @@ const TermsOfUse = () => {
 
         <div className="prose prose-sm max-w-none text-foreground/80 space-y-6 text-left md:text-justify">
           <p>
-            The website located at <a href="https://www.agentsvista.com" target="_blank" rel="noopener noreferrer" className="text-[#39B44A] hover:underline font-medium">www.agentsvista.com</a>, (the "Website") is published, owned, and operated by Ardira Corporation, its affiliates and related entities ("AgentVista", "the Company," "we," "us," and "our"). These Terms of Use (the "Terms") govern your access to and use of the Website.
+            The website located at <a href="https://agentsvista.com" target="_blank" rel="noopener noreferrer" className="text-[#39B44A] hover:underline font-medium">agentsvista.com</a>, (the "Website") is published, owned, and operated by Ardira Corporation, its affiliates and related entities ("AgentVista", "the Company," "we," "us," and "our"). These Terms of Use (the "Terms") govern your access to and use of the Website.
           </p>
           <p>
             By accessing, browsing, submitting information to and/or using the Website, you agree and acknowledge on your own behalf (referred to throughout the Terms as "you") that you have read, understand and agree to be bound by these Terms and to comply with all applicable laws including, without limitation, all federal, state and local tax and tariff laws, regulations, and/or directives. If you do not agree to the Terms, please do not use the Website.

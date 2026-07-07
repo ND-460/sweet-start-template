@@ -93,7 +93,7 @@ const Footer = () => {
               <li className="flex items-center gap-2">
                 <Globe size={18} className="text-brand-blue flex-shrink-0" />
                 <a href="https://agentsvista.com" target="_blank" rel="noopener noreferrer" className="relative hover:text-brand-blue transition-colors group">
-                  www.agentsvista.com
+                  agentsvista.com
                   <span className="absolute bottom-0 h-px transition-all duration-300 w-0 right-0 group-hover:left-0 group-hover:right-auto group-hover:w-full" style={{ backgroundColor: 'hsl(199 76% 52%)' }}></span>
                 </a>
               </li>

@@ -62,88 +62,94 @@
   <!-- Favicon -->
   <link rel="icon" href="/favicon.ico" />
 
-  <!-- JSON-LD Structured Data for Search Engines -->
+  <!-- Schema Markup for SEO -->
+
+  <!-- 0. WebSite — tells Google to show "AgentVista" as the site name -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "AgentVista",
-    "url": "https://agentsvista.com"
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "AgentVista",
-    "url": "https://agentsvista.com",
-    "logo": "https://agentsvista.com/logo.svg",
-    "description": "AgentVista is the intelligent AI-powered assistant for creating, distributing, and analyzing surveys, forms, and assessments inside Salesforce.",
-    "sameAs": [
-      "https://agentsvista.com",
-    ],
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "Customer Support",
-      "telephone": "+1-669-777-6838",
-      "email": "mailto:info@ardira.com"
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "AgentVista",
+      "url": "https://agentsvista.com"
     }
-  }
   </script>
+
+  <!-- 1. Organization -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "AgentVista",
-    "description": "AgentVista is the intelligent AI-powered assistant for creating, distributing, and analyzing surveys, forms, and assessments inside Salesforce.",
-    "url": "https://agentsvista.com",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "Web-based",
-    "author": {
+    {
+      "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "AgentVista"
-    }
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Is AgentVista 100% native to Salesforce? ",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes, AgentVista is built entirely on the Salesforce platform using Agentforce. It requires no external integrations, APIs, or third-party tools — your data stays inside Salesforce at all times, ensuring full compliance with your org's security and governance policies."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Do I need coding skills to use AgentVista?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Not at all. AgentVista is designed for business users. You can create surveys, analyze sentiment, and generate insights using simple natural language prompts. No code, formulas, or technical expertise required."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Can AgentVista integrate with my existing Salesforce workflows?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Absolutely. AgentVista works seamlessly with Salesforce Flows, Process Builder, and Record Lifecycle Maps. You can trigger surveys based on case closures, opportunity stages, onboarding milestones, or any CRM event — and route responses back into your workflows automatically."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What types of organizations benefit most from AgentVista?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "AgentVista is ideal for any organization using Salesforce that needs to collect and act on feedback — from customer experience and sales teams to HR departments and partner management. It's used across industries including healthcare, education, public sector, financial services, and technology."
-        }
+      "name": "AgentVista",
+      "url": "https://agentsvista.com",
+      "logo": "/favicon.ico",
+      "description": "AgentVista is the intelligent AI-powered assistant for creating, distributing, and analyzing surveys, forms, and assessments inside Salesforce.",
+      "sameAs": ["https://agentsvista.com"],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Support",
+        "telephone": "+1-669-777-6838",
+        "email": "support@ardira.com"
       }
-    ]
-  }
+    }
+  </script>
+
+  <!-- 2. SoftwareApplication -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "AgentVista",
+      "description": "AgentVista is the intelligent AI-powered assistant for creating, distributing, and analyzing surveys, forms, and assessments inside Salesforce.",
+      "url": "https://agentsvista.com",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web-based",
+      "author": {
+        "@type": "Organization",
+        "name": "Ardira Corporation"
+      }
+    }
+  </script>
+
+  <!-- 3. FAQ (Homepage) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is AgentVista 100% native to Salesforce? ",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, AgentVista is built entirely on the Salesforce platform using Agentforce. It requires no external integrations, APIs, or third-party tools — your data stays inside Salesforce at all times, ensuring full compliance with your org's security and governance policies."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need coding skills to use AgentVista?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not at all. AgentVista is designed for business users. You can create surveys, analyze sentiment, and generate insights using simple natural language prompts. No code, formulas, or technical expertise required."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can AgentVista integrate with my existing Salesforce workflows?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Absolutely. AgentVista works seamlessly with Salesforce Flows, Process Builder, and Record Lifecycle Maps. You can trigger surveys based on case closures, opportunity stages, onboarding milestones, or any CRM event — and route responses back into your workflows automatically."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What types of organizations benefit most from AgentVista?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AgentVista is ideal for any organization using Salesforce that needs to collect and act on feedback — from customer experience and sales teams to HR departments and partner management. It's used across industries including healthcare, education, public sector, financial services, and technology."
+          }
+        }
+      ]
+    }
   </script>
 
 </head>
