@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import logo from "@/assets/agent-vista-logo.svg";
-import DemoRequestForm from "./DemoRequestForm";
+
+const DemoRequestForm = React.lazy(() => import("./DemoRequestForm"));
 
 const navLinks = [
   { label: "Features", href: "#features" },
@@ -306,7 +307,11 @@ const Navbar = () => {
         )}
       </AnimatePresence>
 
-      <DemoRequestForm open={demoOpen} onClose={() => setDemoOpen(false)} />
+      {demoOpen && (
+        <Suspense fallback={null}>
+          <DemoRequestForm open={demoOpen} onClose={() => setDemoOpen(false)} />
+        </Suspense>
+      )}
     </>
   );
 };

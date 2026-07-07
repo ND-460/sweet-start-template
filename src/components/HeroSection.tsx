@@ -1,7 +1,8 @@
-import { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
-import DemoRequestForm from "./DemoRequestForm";
+
+const DemoRequestForm = React.lazy(() => import("./DemoRequestForm"));
 
 const APPEXCHANGE_URL = "https://appexchange.salesforce.com/appxListingDetail?listingId=c088b22e-a28b-4d93-bdf7-b950546b6e80&channel=recommended";
 
@@ -130,7 +131,11 @@ const HeroSection = () => {
         </div>
       </div>
 
-      <DemoRequestForm open={demoOpen} onClose={() => setDemoOpen(false)} />
+      {demoOpen && (
+        <Suspense fallback={null}>
+          <DemoRequestForm open={demoOpen} onClose={() => setDemoOpen(false)} />
+        </Suspense>
+      )}
 
       <style>{`
         @keyframes drawLine {

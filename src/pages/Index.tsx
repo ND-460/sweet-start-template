@@ -1,17 +1,18 @@
-import { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import WhatIsSection from "@/components/WhatIsSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import BenefitsSection from "@/components/BenefitsSection";
-import UseCasesSection from "@/components/UseCasesSection";
 import CTASection from "@/components/CTASection";
-import FAQSection from "@/components/FAQSection";
-import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import PageSeo from "@/components/seo/PageSeo";
+
+const UseCasesSection = React.lazy(() => import("@/components/UseCasesSection"));
+const FAQSection = React.lazy(() => import("@/components/FAQSection"));
+const ContactSection = React.lazy(() => import("@/components/ContactSection"));
 
 interface IndexProps {
   section?: string;
@@ -49,10 +50,16 @@ const Index = ({ section }: IndexProps) => {
       <WhatIsSection />
       <FeaturesSection />
       <BenefitsSection />
-      <UseCasesSection />
+      <Suspense fallback={<div className="min-h-[400px] bg-background" />}>
+        <UseCasesSection />
+      </Suspense>
       <CTASection />
-      <FAQSection />
-      <ContactSection />
+      <Suspense fallback={<div className="min-h-[400px] bg-background" />}>
+        <FAQSection />
+      </Suspense>
+      <Suspense fallback={<div className="min-h-[600px] bg-background" />}>
+        <ContactSection />
+      </Suspense>
       <Footer />
       <ScrollToTop />
     </div>

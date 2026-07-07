@@ -1,7 +1,8 @@
-import { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import DemoRequestForm from "./DemoRequestForm";
+
+const DemoRequestForm = React.lazy(() => import("./DemoRequestForm"));
 
 const CTASection = () => {
   const [demoOpen, setDemoOpen] = useState(false);
@@ -39,7 +40,11 @@ const CTASection = () => {
           </div>
         </motion.div>
       </div>
-      <DemoRequestForm open={demoOpen} onClose={() => setDemoOpen(false)} />
+      {demoOpen && (
+        <Suspense fallback={null}>
+          <DemoRequestForm open={demoOpen} onClose={() => setDemoOpen(false)} />
+        </Suspense>
+      )}
     </section>
   );
 };
