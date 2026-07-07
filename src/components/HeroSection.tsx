@@ -98,7 +98,9 @@ const HeroSection = () => {
             className="relative flex justify-center items-center mt-12 lg:mt-0"
           >
             <img
-              src="/images/agentvista-ai-survey-hero-mascot.webp"
+              src="/images/agentvista-ai-survey-hero-mascot-1000w.webp"
+              srcSet="/images/agentvista-ai-survey-hero-mascot-500w.webp 500w, /images/agentvista-ai-survey-hero-mascot-800w.webp 800w, /images/agentvista-ai-survey-hero-mascot-1000w.webp 1000w"
+              sizes="(max-width: 640px) 500px, (max-width: 1024px) 800px, 1000px"
               alt="AI-powered survey assistant mascot - AgentVista SurveyVista Copilot for intelligent feedback automation"
               className="w-full max-w-md lg:max-w-lg"
               fetchPriority="high"
