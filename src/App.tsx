@@ -4,7 +4,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { useRecaptcha } from "@/hooks/use-recaptcha";
+import { useRecaptcha } from "@/hooks/useRecaptcha";
 import RobotsManager from "@/components/seo/RobotsManager";
 import CanonicalManager from "@/components/seo/CanonicalManager";
 import Index from "./pages/Index.tsx";

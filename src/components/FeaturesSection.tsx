@@ -134,7 +134,7 @@ const FeaturesSection = () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
     };
-  }, [isMobile, features.length]);
+  }, [isMobile]);
 
   // Always ensure activeIndex is within valid bounds
   const validActiveIndex = Math.max(0, Math.min(activeIndex, features.length - 1));

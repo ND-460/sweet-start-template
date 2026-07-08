@@ -26,6 +26,7 @@ const cacheControlPlugin = (): Plugin => ({
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  envPrefix: ['VITE_', 'ARDIRA_', 'RECAPTCHA_'],
   server: {
     host: "::",
     port: 8080,

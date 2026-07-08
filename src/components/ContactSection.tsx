@@ -5,19 +5,47 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useRecaptcha } from "@/hooks/use-recaptcha";
-//modified contact form to use supabase edge function for submission instead of direct email submission
+import { useRecaptcha } from "@/hooks/useRecaptcha";
+
 // =====================================================
 // EDGE FUNCTION CONFIG
 // Use the production Supabase edge function for all submissions.
+// Variable names kept consistent with the shared "Ardira-Websites"
+// edge function used across all site frontends (Ardira, RV, AV, CV).
 // =====================================================
-const LEAD_SUBMIT_URL =
-  import.meta.env.VITE_LEAD_SUBMIT_URL ||
-  "https://wcwdswvijpaovpxmviyh.supabase.co/functions/v1/submit-lead";
+const FUNCTIONS_URL = import.meta.env.ARDIRA_SUPABASE_FUNCTIONS_URL;
+const ANON_KEY =
+  import.meta.env.ARDIRA_SUPABASE_ANON_KEY || import.meta.env.SUPABASE_ANON_KEY;
 
 // Identifies which brand's form this is, so the edge function knows
-// which sites/email_templates rows to use.
-const SITE_ID = import.meta.env.VITE_SITE_ID || "AgentVista";
+// which sites/email_templates rows to use. Set VITE_SITE_ID per
+// deployment (ComplianceVista, RelationshipVista, AgentVista, Ardira).
+// No hardcoded fallback — must be set in .env for every deployment.
+const SITE_ID = import.meta.env.VITE_SITE_ID;
+
+// =====================================================
+// FUTURE: PER-SITE RECAPTCHA SITE KEY MAP
+// Mirrors the RECAPTCHA_SECRET_KEY_MAP used server-side in the edge
+// function. Only needed once each site is issued its own reCAPTCHA
+// site/secret key pair. Until then, a single shared RECAPTCHA_SITE_KEY
+// is used for all sites (see below).
+//
+// TO SWITCH TO PER-SITE KEYS, DO ALL 3 STEPS:
+// 1. Uncomment RECAPTCHA_SITE_KEY_MAP and RECAPTCHA_SITE_KEY below.
+// 2. In useRecaptcha.ts: comment out its module-level RECAPTCHA_SITE_KEY
+//    constant, and instead accept siteKey as a param to loadRecaptcha()
+//    and executeRecaptcha() so this component can pass its resolved
+//    RECAPTCHA_SITE_KEY in.
+// 3. Add RECAPTCHA_SITE_KEY_AV / _RV / _CV to each site's .env
+//    (base RECAPTCHA_SITE_KEY stays as the Ardira / fallback key).
+// =====================================================
+// const RECAPTCHA_SITE_KEY_MAP: Record<string, string> = {
+//   "Ardira": import.meta.env.RECAPTCHA_SITE_KEY,
+//   "AgentVista": import.meta.env.RECAPTCHA_SITE_KEY_AV,
+//   "RelationshipVista": import.meta.env.RECAPTCHA_SITE_KEY_RV,
+//   "ComplianceVista": import.meta.env.RECAPTCHA_SITE_KEY_CV,
+// };
+// const RECAPTCHA_SITE_KEY = RECAPTCHA_SITE_KEY_MAP[SITE_ID] || import.meta.env.RECAPTCHA_SITE_KEY;
 
 // Zod validation schema
 const contactFormSchema = z.object({
@@ -62,22 +90,19 @@ const ContactSection = () => {
   const onSubmit = async (data: ContactFormData) => {
     setSubmitError("");
 
-    if (!LEAD_SUBMIT_URL) {
-      console.error("Contact submit URL is not configured");
-      setSubmitError("Something went wrong. Please try again later.");
+    if (!FUNCTIONS_URL || !ANON_KEY || !SITE_ID) {
+      console.error("Missing required env vars:", { FUNCTIONS_URL, ANON_KEY, SITE_ID });
+      setSubmitError("Configuration error. Please contact support@ardira.com directly.");
       return;
     }
 
     setIsLoading(true);
 
     try {
-      // reCAPTCHA v3 token — validated server-side in the edge function.
-      // No submission proceeds without a real token.
+      // reCAPTCHA v3 token — validated server-side in the edge function
+      // (currently disabled there during testing; will be enforced once
+      // RECAPTCHA_SECRET_KEY validation is re-enabled)
       const token = await executeRecaptcha("contact_form");
-
-      if (!token) {
-        throw new Error("reCAPTCHA verification failed. Please refresh the page and try again.");
-      }
 
       const payload = {
         site_id: SITE_ID,
@@ -89,9 +114,13 @@ const ContactSection = () => {
         recaptchaToken: token, // camelCase — matches edge function's destructured field
       };
 
-      const response = await fetch(LEAD_SUBMIT_URL, {
+      const response = await fetch(FUNCTIONS_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          apikey: ANON_KEY,
+          Authorization: `Bearer ${ANON_KEY}`,
+        },
         body: JSON.stringify(payload),
       });
 
@@ -123,7 +152,7 @@ const ContactSection = () => {
           viewport={{ once: true }}
           className="text-center max-w-2xl mx-auto mb-12"
         >
-        
+
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             <span className="text-gradient">Contact Us</span>
           </h2>
@@ -141,73 +170,73 @@ const ContactSection = () => {
             viewport={{ once: true }}
             className="space-y-6 w-full lg:sticky lg:top-24 h-fit"
           >
-              <div>
-                <h3 className="text-lg md:text-xl font-bold text-foreground mb-6">Quick Contact</h3>
-                <p className="text-muted-foreground text-sm mb-6">Get in touch with a representative to see a demo or simply learn more about the product.</p>
-              </div>
+            <div>
+              <h3 className="text-lg md:text-xl font-bold text-foreground mb-6">Quick Contact</h3>
+              <p className="text-muted-foreground text-sm mb-6">Get in touch with a representative to see a demo or simply learn more about the product.</p>
+            </div>
 
-              {/* Contact Info Cards */}
-              <div className="space-y-4 w-full">
-                {/* Address */}
-                <a href="https://www.google.com/maps?cid=1981104171238256651" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 p-5 rounded-xl border border-brand-blue/40 bg-white/50 hover:bg-white/80 transition-all duration-300 cursor-pointer w-full min-w-0 shadow-sm hover:shadow-md">
-                  <div className="w-12 h-12 rounded-lg bg-brand-blue text-white flex items-center justify-center shrink-0">
-                    <MapPin size={20} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-foreground text-sm">Address</p>
-                    <p className="text-sm font-medium text-muted-foreground leading-relaxed break-words mt-1">
-                      <span className="hidden md:inline">2040 Marlin Ave, Santa Clara, CA 95050<br/>United States</span>
-                      <span className="md:hidden">2040 Marlin Ave, Santa Clara, CA <br/>95050, United States</span>
-                    </p>
-                  </div>
-                </a>
-
-                {/* Phone */}
-                <a href="tel:16697776838" className="flex items-center gap-4 p-5 rounded-xl border border-brand-blue/40 bg-white/50 hover:bg-white/80 transition-all duration-300 cursor-pointer w-full min-w-0 shadow-sm hover:shadow-md hover:border-brand-blue/80 group">
-                  <div className="w-12 h-12 rounded-lg bg-brand-blue text-white flex items-center justify-center shrink-0 group-hover:bg-brand-blue transition-colors duration-300">
-                    <Phone size={20} className="group-hover:text-white transition-colors duration-300" />
-                  </div>
-                  <div className="flex-1 min-w-0 py-1">
-                    <p className="font-semibold text-foreground text-sm">Phone</p>
-                    <p className="text-sm font-medium text-muted-foreground mt-1 group-hover:text-brand-blue transition-colors duration-300 relative inline-block">
-                      1.669.777.6838
-                      <span className="absolute bottom-0 h-px transition-all duration-300 w-0 right-0 group-hover:left-0 group-hover:right-auto group-hover:w-full" style={{ backgroundColor: 'hsl(199 76% 52%)' }}></span>
-                    </p>
-                  </div>
-                </a>
-
-                {/* Email */}
-                <a href="mailto:info@ardira.com" className="flex items-center gap-4 p-5 rounded-xl border border-brand-blue/40 bg-white/50 hover:bg-white/80 transition-all duration-300 cursor-pointer w-full min-w-0 shadow-sm hover:shadow-md hover:border-brand-blue/60 group">
-                  <div className="w-12 h-12 rounded-lg bg-brand-blue text-white flex items-center justify-center shrink-0 group-hover:bg-brand-blue transition-colors duration-300">
-                    <Mail size={20} className="group-hover:text-white transition-colors duration-300" />
-                  </div>
-                  <div className="flex-1 min-w-0 py-1">
-                    <p className="font-semibold text-foreground text-sm">Email</p>
-                    <p className="text-sm font-medium text-muted-foreground mt-1 group-hover:text-brand-blue transition-colors duration-300 relative inline-block">
-                      info@ardira.com
-                      <span className="absolute bottom-0 h-px transition-all duration-300 w-0 right-0 group-hover:left-0 group-hover:right-auto group-hover:w-full" style={{ backgroundColor: 'hsl(199 76% 52%)' }}></span>
-                    </p>
-                  </div>
-                </a>
-              </div>
-
-              {/* Support Note */}
-              <div className="flex items-start gap-4 p-5 rounded-xl border border-secondary/40 bg-secondary/5 w-full min-w-0 shadow-sm group cursor-pointer hover:bg-secondary/10 transition-colors">
-                <div className="w-10 h-10 rounded-full bg-secondary text-white flex items-center justify-center shrink-0 text-lg font-bold">?</div>
+            {/* Contact Info Cards */}
+            <div className="space-y-4 w-full">
+              {/* Address */}
+              <a href="https://www.google.com/maps?cid=1981104171238256651" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 p-5 rounded-xl border border-brand-blue/40 bg-white/50 hover:bg-white/80 transition-all duration-300 cursor-pointer w-full min-w-0 shadow-sm hover:shadow-md">
+                <div className="w-12 h-12 rounded-lg bg-brand-blue text-white flex items-center justify-center shrink-0">
+                  <MapPin size={20} />
+                </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-muted-foreground">
-                    <span className="hidden md:inline"><span className="font-semibold text-foreground">For customer support,</span> email us directly at<br /></span>
-                    <span className="md:hidden"><span className="font-semibold text-foreground">For customer support, email us</span> <br /> directly at </span>
-                    <a href="mailto:support@ardira.com" className="relative font-medium inline-block" style={{ color: '#39B44A' }}>
-                      {" "}support@ardira.com
-                      <span 
-                        className="absolute bottom-0 h-px transition-all duration-300 w-0 right-0 group-hover:left-0 group-hover:right-auto group-hover:w-full" 
-                        style={{ backgroundColor: '#39B44A' }}
-                      ></span>
-                    </a>
+                  <p className="font-semibold text-foreground text-sm">Address</p>
+                  <p className="text-sm font-medium text-muted-foreground leading-relaxed break-words mt-1">
+                    <span className="hidden md:inline">2040 Marlin Ave, Santa Clara, CA 95050<br />United States</span>
+                    <span className="md:hidden">2040 Marlin Ave, Santa Clara, CA <br />95050, United States</span>
                   </p>
                 </div>
+              </a>
+
+              {/* Phone */}
+              <a href="tel:16697776838" className="flex items-center gap-4 p-5 rounded-xl border border-brand-blue/40 bg-white/50 hover:bg-white/80 transition-all duration-300 cursor-pointer w-full min-w-0 shadow-sm hover:shadow-md hover:border-brand-blue/80 group">
+                <div className="w-12 h-12 rounded-lg bg-brand-blue text-white flex items-center justify-center shrink-0 group-hover:bg-brand-blue transition-colors duration-300">
+                  <Phone size={20} className="group-hover:text-white transition-colors duration-300" />
+                </div>
+                <div className="flex-1 min-w-0 py-1">
+                  <p className="font-semibold text-foreground text-sm">Phone</p>
+                  <p className="text-sm font-medium text-muted-foreground mt-1 group-hover:text-brand-blue transition-colors duration-300 relative inline-block">
+                    1.669.777.6838
+                    <span className="absolute bottom-0 h-px transition-all duration-300 w-0 right-0 group-hover:left-0 group-hover:right-auto group-hover:w-full" style={{ backgroundColor: 'hsl(199 76% 52%)' }}></span>
+                  </p>
+                </div>
+              </a>
+
+              {/* Email */}
+              <a href="mailto:info@ardira.com" className="flex items-center gap-4 p-5 rounded-xl border border-brand-blue/40 bg-white/50 hover:bg-white/80 transition-all duration-300 cursor-pointer w-full min-w-0 shadow-sm hover:shadow-md hover:border-brand-blue/60 group">
+                <div className="w-12 h-12 rounded-lg bg-brand-blue text-white flex items-center justify-center shrink-0 group-hover:bg-brand-blue transition-colors duration-300">
+                  <Mail size={20} className="group-hover:text-white transition-colors duration-300" />
+                </div>
+                <div className="flex-1 min-w-0 py-1">
+                  <p className="font-semibold text-foreground text-sm">Email</p>
+                  <p className="text-sm font-medium text-muted-foreground mt-1 group-hover:text-brand-blue transition-colors duration-300 relative inline-block">
+                    info@ardira.com
+                    <span className="absolute bottom-0 h-px transition-all duration-300 w-0 right-0 group-hover:left-0 group-hover:right-auto group-hover:w-full" style={{ backgroundColor: 'hsl(199 76% 52%)' }}></span>
+                  </p>
+                </div>
+              </a>
+            </div>
+
+            {/* Support Note */}
+            <div className="flex items-start gap-4 p-5 rounded-xl border border-secondary/40 bg-secondary/5 w-full min-w-0 shadow-sm group cursor-pointer hover:bg-secondary/10 transition-colors">
+              <div className="w-10 h-10 rounded-full bg-secondary text-white flex items-center justify-center shrink-0 text-lg font-bold">?</div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm text-muted-foreground">
+                  <span className="hidden md:inline"><span className="font-semibold text-foreground">For customer support,</span> email us directly at<br /></span>
+                  <span className="md:hidden"><span className="font-semibold text-foreground">For customer support, email us</span> <br /> directly at </span>
+                  <a href="mailto:support@ardira.com" className="relative font-medium inline-block" style={{ color: '#39B44A' }}>
+                    {" "}support@ardira.com
+                    <span
+                      className="absolute bottom-0 h-px transition-all duration-300 w-0 right-0 group-hover:left-0 group-hover:right-auto group-hover:w-full"
+                      style={{ backgroundColor: '#39B44A' }}
+                    ></span>
+                  </a>
+                </p>
               </div>
+            </div>
           </motion.div>
 
           {/* Right: Contact Form */}
@@ -294,69 +323,66 @@ const ContactSection = () => {
 
                 <div>
                   <label className="block text-sm font-semibold text-foreground mb-2">Name<span className="text-red-500">*</span></label>
-                  <input 
+                  <input
                     type="text"
                     disabled={isLoading}
                     placeholder="Enter your name"
                     onFocus={loadRecaptcha}
                     {...register("name")}
-                    className={`w-full px-4 py-2.5 rounded-md border transition-colors text-sm focus:outline-none focus:ring-2 disabled:opacity-50 ${
-                      errors.name
-                        ? "border-red-500 bg-red-50 focus:ring-red-500/30 focus:border-red-500"
-                        : "border-border bg-background focus:ring-brand-blue/30 focus:border-brand-blue"
-                    } text-foreground`}
+                    className={`w-full px-4 py-2.5 rounded-md border transition-colors text-sm focus:outline-none focus:ring-2 disabled:opacity-50 ${errors.name
+                      ? "border-red-500 bg-red-50 focus:ring-red-500/30 focus:border-red-500"
+                      : "border-border bg-background focus:ring-brand-blue/30 focus:border-brand-blue"
+                      } text-foreground`}
                   />
                   {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
                 </div>
 
                 <div>
                   <label className="block text-sm font-semibold text-foreground mb-2">Email<span className="text-red-500">*</span></label>
-                  <input 
+                  <input
                     type="email"
                     disabled={isLoading}
                     placeholder="Enter your email"
                     onFocus={loadRecaptcha}
                     {...register("email")}
-                    className={`w-full px-4 py-2.5 rounded-md border transition-colors text-sm focus:outline-none focus:ring-2 disabled:opacity-50 ${
-                      errors.email
-                        ? "border-red-500 bg-red-50 focus:ring-red-500/30 focus:border-red-500"
-                        : "border-border bg-background focus:ring-brand-blue/30 focus:border-brand-blue"
-                    } text-foreground`}
+                    className={`w-full px-4 py-2.5 rounded-md border transition-colors text-sm focus:outline-none focus:ring-2 disabled:opacity-50 ${errors.email
+                      ? "border-red-500 bg-red-50 focus:ring-red-500/30 focus:border-red-500"
+                      : "border-border bg-background focus:ring-brand-blue/30 focus:border-brand-blue"
+                      } text-foreground`}
                   />
                   {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
                 </div>
 
                 <div>
                   <label className="block text-sm font-semibold text-foreground mb-2">Phone<span className="text-red-500">*</span></label>
-                  <input 
+                  <input
                     type="tel"
                     disabled={isLoading}
                     placeholder="Enter your phone number"
                     onFocus={loadRecaptcha}
                     {...register("phone")}
-                    className={`w-full px-4 py-2.5 rounded-md border transition-colors text-sm focus:outline-none focus:ring-2 disabled:opacity-50 ${
-                      errors.phone
-                        ? "border-red-500 bg-red-50 focus:ring-red-500/30 focus:border-red-500"
-                        : "border-border bg-background focus:ring-brand-blue/30 focus:border-brand-blue"
-                    } text-foreground`}
+                    className={`w-full px-4 py-2.5 rounded-md border transition-colors text-sm focus:outline-none focus:ring-2 disabled:opacity-50 ${errors.phone
+                      ? "border-red-500 bg-red-50 focus:ring-red-500/30 focus:border-red-500"
+                      : "border-border bg-background focus:ring-brand-blue/30 focus:border-brand-blue"
+                      } text-foreground`}
                   />
                   {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>}
                 </div>
 
                 <div>
                   <label className="block text-sm font-semibold text-foreground mb-2">Message</label>
-                  <textarea 
+                  <textarea
                     rows={5}
                     disabled={isLoading}
                     placeholder="Lets talk! Tell us about yourself."
                     onFocus={loadRecaptcha}
                     {...register("message")}
-                    className="w-full px-4 py-2.5 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30 focus:border-brand-blue transition-colors resize-none disabled:opacity-50" 
+                    className="w-full px-4 py-2.5 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue/30 focus:border-brand-blue transition-colors resize-none disabled:opacity-50"
                   />
                 </div>
 
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   disabled={isLoading}
                   className="w-full py-3 rounded-md bg-brand-blue text-white font-semibold text-sm hover:opacity-85 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                 >
